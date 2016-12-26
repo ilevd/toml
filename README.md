@@ -13,11 +13,6 @@ Despite the fact the library is pretty fast, cause it's written in Java, I'd rec
 
 [![Clojars Project](https://clojars.org/toml/latest-version.svg)](http://clojars.org/toml)
 
-If you don't like extra clicks, just copy it:
-```
-[toml "0.1.0-SNAPSHOT"]
-```
-
 ## Usage
 
 ```clojure
@@ -81,7 +76,7 @@ priority = 5
 
 Just do it:
 ```clojure
-(toml.core/read (slurp "./resources/example.toml") :keywordize)
+(toml/read (slurp "./resources/example.toml") :keywordize)
 => 
 {:owner {:dob #inst"1979-05-27T15:32:00.000-00:00", :name "Tom Preston-Werner"},
  :storages [{:name "Redis", :priority 10} {:name "Memcached", :priority 5}],
@@ -91,7 +86,10 @@ Just do it:
  :title "TOML Example"}
 ```
 
+For more information, please, visit [toml4j](https://github.com/mwanji/toml4j) library.
+
 ## License
 
 ilevd © 2016-2017
 
+Distributed under the MIT License.

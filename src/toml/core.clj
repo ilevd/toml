@@ -1,6 +1,5 @@
 (ns toml.core
   (:import
-    ;[com.electronwill.toml Toml]
     (com.moandjiezana.toml Toml)
     (java.util HashMap ArrayList))
   (:gen-class))
@@ -19,7 +18,6 @@
     :else data))
 
 (defn java->clojure [data & params]
-  (prn params)
   (java->clojure* data (reduce #(assoc %1 %2 true) {} params)))
 
 (defn clojure->java [data]
@@ -37,12 +35,6 @@
                            (.add res (clojure->java val)))
                          res)
     :else data))
-
-;(defn read [str & params]
-;  (apply java->clojure (cons (Toml/read str) params)))
-;
-;(defn write [data]
-;  (-> data clojure->java Toml/writeToString))
 
 (defn read [str & params]
   (let [toml (Toml.)

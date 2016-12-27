@@ -1,9 +1,11 @@
 # toml
 
-A Clojure [TOML](https://github.com/toml-lang/toml) wrapper based on Java [toml4j](https://github.com/mwanji/toml4j) library.
+TOML is a configuration format, similar to JSON, but much more human readable. It's like YAML, but easier to write. You can read about it [here](https://npf.io/2014/08/intro-to-toml/).
+
+This is a Clojure [TOML](https://github.com/toml-lang/toml) wrapper based on Java [toml4j](https://github.com/mwanji/toml4j) library.
 The tests are from [clj-toml](https://github.com/lantiga/clj-toml).
 
-Despite the fact the library is pretty fast, cause it's written in Java, I'd reccomend you to visit [clj-toml](https://github.com/lantiga/clj-toml) -
+Despite the fact the library is pretty fast, cause it's written in Java, I'd recommend you to visit [clj-toml](https://github.com/lantiga/clj-toml) -
  it looks more solid than [toml4j](https://github.com/mwanji/toml4j) and it's written in pure Clojure using [Instaparse](https://github.com/Engelberg/instaparse).
 
 

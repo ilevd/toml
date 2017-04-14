@@ -1,4 +1,5 @@
 (ns toml.core
+  (:refer-clojure :exclude [read])
   (:import
     (com.moandjiezana.toml Toml)
     (java.util HashMap ArrayList))

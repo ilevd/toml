@@ -1,4 +1,4 @@
-(defproject toml "0.1.0-SNAPSHOT"
+(defproject toml "0.1.2"
   :description "TOML library"
   :url "http://github.com/ilevd/toml"
   :license {:name " MIT License"

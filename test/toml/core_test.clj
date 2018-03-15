@@ -5,11 +5,13 @@
 
 ;; tests from https://github.com/lantiga/clj-toml
 
+
 (deftest comment-test
   (testing "Comments"
     (is (= (toml/read "#just a comment line
                           foo = \"bar\" # and one more comment")
            {"foo" "bar"}))))
+
 
 (deftest numbers-test
   (testing "Numbers"
@@ -24,12 +26,14 @@
             "float_exp" 1e10
             "negative_float" -3.0}))))
 
+
 (deftest bool-test
   (testing "Booleans"
     (is (= (toml/read "truthy = true
                        falsy = false")
            {"truthy" true
             "falsy" false}))))
+
 
 (deftest datetime-test
   (testing "Datetime"
@@ -44,6 +48,7 @@
     ;(is (= (toml/read  "mydob = 1975-10-03T16:20:00.999999-07:00 # and a comment, just because")
     ;       {"mydob" (read-instant-timestamp "1975-10-03T16:20:00.999999-07:00")}))
     ))
+
 
 (deftest array-test
   (testing "Arrays"
@@ -70,6 +75,7 @@
             "Bgroup" {"nested" {}}
             "Cgroup" {"nested" {}}}))))
 
+
 (deftest standard-keygroup
   (testing "Standard keygroups"
     (is (= (toml/read "[Agroup]
@@ -83,6 +89,7 @@
                       "third" 3
                       "fourth" 4.0
                       "fifth" [5 -6 7]}}))))
+
 
 (deftest nested-keygroup
   (testing "Nested keygroups"
@@ -101,6 +108,7 @@
                        "fourth" 4.0}}
             "Bgroup" {"nested"
                       {"fifth" [5 -6 7]}}}))))
+
 
 (deftest inline-table-test
   (testing "Inline table"
@@ -144,6 +152,7 @@
                       "color" "gray"}]
             }))))
 
+
 (deftest hard-example-test
   (testing "TOML hard example"
     (is (= (toml/read (slurp "resources/hard_example.toml"))
@@ -160,3 +169,16 @@
                             "harder_test_string"
                                                   " And when \"'s are in the string, along with # \""},
              "test_string" "You'll hate me after this - #"}}))))
+
+
+
+(deftest read-write
+  (testing "Read - write"
+    (is (let [data   {:a 1
+                      :b {:c 3
+                          :d 4
+                          :e {:a 1}}
+                      :d "hello"}]
+          (= data (toml/read (toml/write data) :keywordize))))))
+
+

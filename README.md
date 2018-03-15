@@ -5,9 +5,6 @@ TOML is a configuration format, similar to JSON, but much more human readable. I
 This is a Clojure [TOML](https://github.com/toml-lang/toml) wrapper based on Java [toml4j](https://github.com/mwanji/toml4j) library.
 The tests are from [clj-toml](https://github.com/lantiga/clj-toml).
 
-Despite the fact the library is pretty fast, cause it's written in Java, I'd recommend you to visit [clj-toml](https://github.com/lantiga/clj-toml) -
- it looks more solid than [toml4j](https://github.com/mwanji/toml4j) and it's written in pure Clojure using [Instaparse](https://github.com/Engelberg/instaparse).
-
 
 ## Installation
 
@@ -88,10 +85,41 @@ Just do it:
  :title "TOML Example"}
 ```
 
+You can also generate TOML doc (for simple cases by now):
+
+```clojure
+(toml/write {:owner    {:name "Tom Preston-Werner"},
+             :database {:server "192.168.1.1", :connection_max 5000, :port 8002, :enabled true},
+             :servers  {:alpha {:ip "10.0.0.1", :dc "eqdc10"}, :beta {:ip "10.0.0.2", :dc "eqdc10"}},
+             :title    "TOML Example"})
+=>
+"title = \"TOML Example\"
+ 
+ [owner]
+ name = \"Tom Preston-Werner\"
+ 
+ [database]
+ server = \"192.168.1.1\"
+ connection_max = 5000
+ port = 8002
+ enabled = true
+ 
+ [servers.alpha]
+ ip = \"10.0.0.1\"
+ dc = \"eqdc10\"
+ 
+ [servers.beta]
+ ip = \"10.0.0.2\"
+ dc = \"eqdc10\"
+ "
+
+```
+
+
 For more information, please, visit [toml4j](https://github.com/mwanji/toml4j) library.
 
 ## License
 
-ilevd © 2016-2017
+ilevd © 2016-2018
 
 Distributed under the MIT License.

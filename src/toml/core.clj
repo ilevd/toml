@@ -1,5 +1,6 @@
 (ns toml.core
   (:refer-clojure :exclude [read])
+  (:require [clojure.string :as str])
   (:import
     (com.moandjiezana.toml Toml)
     (java.util HashMap ArrayList))
@@ -78,7 +79,9 @@
        (doseq [[k v] simple-vals]
          (.append sb (name k))
          (.append sb " = ")
-         (.append sb (pr-str v))
+         (.append sb (if (sequential? v)
+                       (format "[%s]" (str/join "," (map pr-str v)))
+                       (pr-str v)))
          (.append sb "\n")))
      (doseq [[dp v] complex-vals]
        (write v (compose-deep-name deep-name dp) sb))

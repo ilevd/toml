@@ -29,7 +29,7 @@ You can keywordize result keys, just pass ``:keywordize``
 ```
 
 More complex example, assuming you have example.toml:
-```
+```toml
 # This is a TOML document.
 
 title = "TOML Example"

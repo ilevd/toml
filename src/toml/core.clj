@@ -90,8 +90,7 @@
 (defn write
   ([data] (write data "" (StringBuilder.)))
   ([data deep-name sb]
-   (let [simple-vals  (filter (fn [[k v]] (not (map? v))) data)
-         complex-vals (filter (fn [[k v]] (map? v)) data)]
+   (let [{simple-vals false complex-vals true} (group-by (comp map? second) data)]
      (when (seq simple-vals)
        (print-name deep-name sb)
        (doseq [[k v] simple-vals]

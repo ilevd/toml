@@ -1,9 +1,8 @@
 (ns toml.core
   (:refer-clojure :exclude [read])
   (:require [clojure.string :as str])
-  (:import
-    (com.moandjiezana.toml Toml)
-    (java.util HashMap ArrayList))
+  (:import (com.moandjiezana.toml Toml)
+           (java.util HashMap ArrayList))
   (:gen-class))
 
 
@@ -46,7 +45,7 @@
 
 
 (defn read [str & params]
-  (let [toml (Toml.)
+  (let [toml        (Toml.)
         java-result (.toMap (.read toml str))]
     (apply java->clojure (cons java-result params))))
 
@@ -62,26 +61,43 @@
 
 
 (defn- compose-deep-name [deep-name nested-name]
-  (let [deep-name (name deep-name)
+  (let [deep-name   (name deep-name)
         nested-name (name nested-name)]
-    (if (seq deep-name)
-      (str deep-name "." nested-name)
-      nested-name)))
+    (if (str/blank? deep-name)
+      nested-name
+      (str deep-name "." nested-name))))
+
+
+(defn- print-val [val sb]
+  (cond
+    (map? val) (do (.append sb "{ ")
+                   (doseq [[idx [k v]] (map-indexed vector val)]
+                     (when (> idx 0)
+                       (.append sb ", "))
+                     (.append sb (name k))
+                     (.append sb " = ")
+                     (print-val v sb))
+                   (.append sb " }"))
+    (sequential? val) (do (.append sb "[")
+                          (doseq [[idx v] (map-indexed vector val)]
+                            (when (> idx 0)
+                              (.append sb ", "))
+                            (print-val v sb))
+                          (.append sb "]"))
+    true (.append sb (pr-str val))))
 
 
 (defn write
   ([data] (write data "" (StringBuilder.)))
   ([data deep-name sb]
-   (let [simple-vals (filter (fn [[k v]] (not (map? v))) data)
+   (let [simple-vals  (filter (fn [[k v]] (not (map? v))) data)
          complex-vals (filter (fn [[k v]] (map? v)) data)]
      (when (seq simple-vals)
        (print-name deep-name sb)
        (doseq [[k v] simple-vals]
          (.append sb (name k))
          (.append sb " = ")
-         (.append sb (if (sequential? v)
-                       (format "[%s]" (str/join "," (map pr-str v)))
-                       (pr-str v)))
+         (print-val v sb)
          (.append sb "\n")))
      (doseq [[dp v] complex-vals]
        (write v (compose-deep-name deep-name dp) sb))
